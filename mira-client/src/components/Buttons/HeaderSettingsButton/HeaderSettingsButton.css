@@ -1,0 +1,24 @@
+.btn-settings {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.btn-settings:hover {
+    transform: rotate(50deg);
+}
+
+.settings-icon {
+    width: 30px;
+    height: 30px;
+    fill: #333;
+    transition: fill 0.2s ease-in-out;
+}
+
+.btn-settings:hover .settings-icon {
+    fill: #007bff;
+}

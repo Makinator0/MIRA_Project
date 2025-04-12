@@ -1,0 +1,224 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #2c3e50; /* Задний фон страницы */
+    box-sizing: border-box;
+}
+
+/* Верхняя навигация */
+.breadcrumb {
+    margin: 10px 20px;
+    font-size: 14px;
+    color: #7f8c8d;
+    border-bottom: 1px solid #ddd; /* Тонкая полоска */
+    padding-bottom: 10px; /* Отступ от нижней границы */
+}
+
+/* Канбан-доска */
+.kanban-board {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Увеличено расстояние между колонками */
+    padding: 0 20px; /* Отступы слева и справа */
+    align-items: stretch; /* Колонки будут растягиваться по высоте */
+}
+
+/* Колонки */
+.kanban-column {
+    background-color: #34495e; /* Единственный цвет для всех колонок */
+    border-radius: 5px;
+    padding: 0; /* Убираем отступы внутри колонки */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Колонки растягиваются на доступную ширину */
+}
+
+/* Заголовок колонок */
+.kanban-column .kanban-header {
+    padding: 10px;
+    margin: 0; /* Убираем отступы вокруг списка */
+    font-size: 16px;
+    /*font-weight: bold;*/
+    color: #ffffff; /* Белый текст */
+    border-radius: 5px 5px 0 0;
+    border-bottom: 1px solid #ddd; /* Линия под заголовком */
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+/* Список задач */
+.kanban-tasks {
+    list-style: none; /* Убираем маркеры списка */
+    margin: 0; /* Убираем отступы вокруг списка */
+    padding: 10px; /* Внутренние отступы */
+    flex-grow: 1; /* Растягиваем список на оставшуюся высоту колонки */
+    overflow-y: auto; /* Добавляем прокрутку, если тикетов много */
+}
+
+/* Тикеты */
+.kanban-ticket {
+    width: 100%; /* Растягиваем тикет на всю ширину колонки */
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #223140; /* Измененный цвет тикетов */
+    border: 2px solid #161f29; /* Темно-зеленая обводка */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Расстояние между элементами внутри тикета */
+    box-sizing: border-box;
+}
+
+/* Заголовок тикета */
+.kanban-ticket .ticket-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff; /* Белый текст */
+}
+
+/* Теги */
+.kanban-ticket .ticket-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.kanban-ticket .ticket-tag {
+    background-color: transparent; /* Без фона */
+    color: #8e44ad; /* Фиолетовый цвет текста */
+    font-size: 14px; /* Увеличиваем размер шрифта */
+    font-weight: bold; /* Делаем шрифт жирным */
+    border-radius: 3px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif; /* Применяем другой шрифт */
+}
+
+
+/* Футер тикета */
+.kanban-ticket .ticket-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ecf0f1; /* Белый текст */
+}
+
+/* ID тикета */
+.kanban-ticket .ticket-id {
+    font-weight: bold;
+}
+
+/* Аватар */
+.kanban-ticket .ticket-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ddd;
+    overflow: hidden;
+}
+
+.kanban-ticket .ticket-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.kanban-ticket .avatar-initials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ecf0f1; /* Белый текст */
+    background-color: #34495e;
+    text-transform: uppercase;
+}
+
+
+
+
+.time-line {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.time-segment {
+    width: 6px;
+    height: 12px;
+    background-color: #ddd;
+    border-radius: 2px;
+}
+
+.time-segment.filled {
+    background-color: #8e44ad;
+}
+
+.new-ticket {
+    font-size: 14px;
+    font-weight: bold;
+    color: green;
+}
+.ticket-priority-line {
+    display: flex;
+    align-items: center; /* Вертикальное выравнивание по центру */
+    /*gap: 8px; !* Отступ между иконкой и прогресс-баром *!*/
+    /*margin-top: 8px;*/
+}
+
+.priority-icon {
+    width: 30px; /* Размер иконки */
+    height: 24px;
+    object-fit: contain; /* Подгонка изображения */
+}
+.ticket-footer {
+    display: flex;
+    align-items: center; /* Выравниваем элементы по центру */
+    justify-content: space-between; /* Разделяем информацию и аватар по краям */
+    gap: 8px; /* Отступ между иконкой и текстом */
+}
+.ticket-info {
+    align-items: center; /* Выравнивание иконки и текста по центру */
+    gap: 4px; /* Отступ между иконкой и номером тикета */
+}
+
+.type-icon {
+    width: 20px; /* Размер иконки */
+    height: 20px;
+    object-fit: contain; /* Подгоняем изображение */
+}
+.tooltip {
+    visibility: hidden; /* Скрываем подсказку по умолчанию */
+    position: absolute;
+    top: 100%; /* Отображаем снизу */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.type-icon-container:hover .tooltip,
+.priority-icon-container:hover .tooltip,
+.time-line-container:hover .tooltip{
+    visibility: visible;
+    opacity: 1; /* Показываем подсказку при наведении */
+}
+.type-icon-container, .priority-icon-container, .time-line-container {
+    position: relative;
+    display: inline-block;
+}
+
+
+

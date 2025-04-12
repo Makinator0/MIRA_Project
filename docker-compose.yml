@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: java
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./MIRA
+    container_name: mira_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - app_network  # Используем общую сеть app_network, вместо network_mode: host
+
+  frontend:
+    tty: true
+    build:
+      context: ./mira-client
+      dockerfile: Dockerfile
+    container_name: mira_frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - app_network  # Используем общую сеть app_network
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge

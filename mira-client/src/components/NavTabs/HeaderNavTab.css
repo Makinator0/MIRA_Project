@@ -1,0 +1,36 @@
+/* Стили для кнопки Create */
+.btn-create {
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-create:hover {
+    background-color: #0056b3;
+}
+.nav-tabs {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.nav-tab {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+.nav-tab:hover {
+    background-color: #405a73;
+}
+
+.nav-tab.active {
+    border-bottom: 2px solid #007bff;
+    font-weight: bold;
+    color: #007bff;
+}
