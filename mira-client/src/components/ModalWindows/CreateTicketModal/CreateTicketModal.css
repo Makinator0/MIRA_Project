@@ -56,13 +56,35 @@
     cursor: pointer;
 }
 
-input, select, textarea {
+/*.modal.input, .modal.select, .modal.textarea {*/
+/*    width: 94%;*/
+/*    padding: 8px;*/
+/*    margin: 10px 0;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*}*/
+.modal-input{
     width: 94%;
     padding: 8px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+.modal-select{
+    width: 94%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.modal-textarea{
+    width: 94%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 
 textarea {
     height: 100px;

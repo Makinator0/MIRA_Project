@@ -1,4 +1,5 @@
-
+import React from "react";
+import "./LoginInputField.css"
 const LoginInputField = ({ type, placeholder, value, onChange, required }) => (
     <input
         type={type}

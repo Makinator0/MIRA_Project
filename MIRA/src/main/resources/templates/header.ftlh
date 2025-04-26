@@ -28,16 +28,16 @@
             <h3>Create New Ticket</h3>
             <form id="createTicketForm">
                 <label for="project">Project:</label>
-                <select id="project" name="project" required>
+                <select id="project" name="project" required class="modal-select">
                     <option value="CORE">CORE</option>
                     <option value="DIGITAL">DIGITAL</option>
                 </select><br>
 
                 <label for="title">Summary:</label>
-                <input type="text" id="title" name="title" required><br>
+                <input type="text" id="title" name="title" required class="modal-input"><br>
 
                 <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea><br>
+                <textarea id="description" name="description" required class="modal-textarea"></textarea><br>
 
                 <label for="reporterInput">Reporter:</label>
                 <div id="reporterContainer"></div><br>
@@ -48,7 +48,7 @@
 
 
                 <label for="type">Type:</label>
-                <select id="type" name="type">
+                <select id="type" name="type" class="modal-select">
                     <option value="BUG">BUG</option>
                     <option value="EPIC">FEATURE</option>
                     <option value="TASK" selected>TASK</option>
@@ -56,7 +56,7 @@
                 </select><br>
 
                 <label for="status">Status:</label>
-                <select id="status" name="status" required>
+                <select id="status" name="status" required class="modal-select">
                     <option value="TO_DO">To Do</option>
                     <option value="IN_PROGRESS">In Progress</option>
                     <option value="IN_REVIEW">In Review</option>
@@ -64,7 +64,7 @@
                 </select><br>
 
                 <label for="priority">Priority:</label>
-                <select id="priority" name="priority" required>
+                <select id="priority" name="priority" required class="modal-select">
                     <option value="MINOR">Minor</option>
                     <option value="LOW">Low</option>
                     <option value="MEDIUM">Medium</option>
