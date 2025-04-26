@@ -53,6 +53,7 @@ const TagInput = ({ value, onChange, placeholder }) => {
             <input
                 type="text"
                 name="tags"
+                class="modal-input"
                 value={value}
                 onChange={handleInput}
                 onKeyDown={handleKeyDown}

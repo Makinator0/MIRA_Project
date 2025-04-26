@@ -5,7 +5,7 @@ import Header from "../../components/Headers/KanbanHeader";
 import KanbanBoard from "../../components/Boards/KanbanBoard/KanbanBoard";
 import useWebSocket from "../../hooks/useWebSocket"; // Добавлен импорт Header
 
-const Kanban = () => {
+const KanbanPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -52,4 +52,4 @@ const Kanban = () => {
     );
 };
 
-export default Kanban;
+export default KanbanPage;

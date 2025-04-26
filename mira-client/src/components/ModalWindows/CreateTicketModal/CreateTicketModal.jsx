@@ -99,8 +99,10 @@ const CreateTicketModal = ({
                         id="project"
                         name="project"
                         required
+                        class="modal-select"
                         value={formData.project}
                         onChange={handleChange}
+
                     >
                         <option value="CORE">CORE</option>
                         <option value="DIGITAL">DIGITAL</option>
@@ -113,6 +115,7 @@ const CreateTicketModal = ({
                         id="title"
                         name="title"
                         required
+                        class="modal-input"
                         value={formData.title}
                         onChange={handleChange}
                     />
@@ -123,6 +126,7 @@ const CreateTicketModal = ({
                         id="description"
                         name="description"
                         required
+                        class="modal-textarea"
                         value={formData.description}
                         onChange={handleChange}
                     ></textarea>
@@ -162,6 +166,7 @@ const CreateTicketModal = ({
                     <select
                         id="type"
                         name="type"
+                        class="modal-select"
                         value={formData.type}
                         onChange={handleChange}
                     >
@@ -177,6 +182,7 @@ const CreateTicketModal = ({
                         id="status"
                         name="status"
                         required
+                        class="modal-select"
                         value={formData.status}
                         onChange={handleChange}
                     >
@@ -192,6 +198,7 @@ const CreateTicketModal = ({
                         id="priority"
                         name="priority"
                         required
+                        class="modal-select"
                         value={formData.priority}
                         onChange={handleChange}
                     >
