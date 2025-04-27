@@ -1,7 +1,7 @@
 package com.example.MIRA.controllers;
 
+import com.example.MIRA.dto.KanbanTicketDto;
 import com.example.MIRA.models.Sprint;
-import com.example.MIRA.models.Ticket;
 import com.example.MIRA.models.User;
 import com.example.MIRA.security.JwtTokenProvider;
 import com.example.MIRA.services.SprintService;
@@ -12,12 +12,10 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 public class KanbanController {
@@ -37,18 +35,14 @@ public class KanbanController {
 
     @MessageMapping("/getAllTickets")
     @SendTo("/topic/kanban")
-    public List<Ticket> getAllTickets(@Payload Map<String, Object> message) {
+    public List<KanbanTicketDto> getAllTickets(@Payload Map<String, Object> message) {
         System.out.println(message.get("ticket"));
         return ticketService.getTicketsForUser(message);
     }
     @MessageMapping("/getSprint")
     @SendTo("/topic/sprints")
-    public List<Sprint> getSprint() {
-        Sprint currentSprint = sprintService.findCurrentSprint(LocalDateTime.now());
-        if (currentSprint != null) {
-            return Collections.singletonList(currentSprint);
-        }
-        return Collections.emptyList();
+    public List<Sprint> getSprint(@Payload Map<String, Object> message) {
+       return  sprintService.getAllCurrentSprints(message);
     }
 
 
