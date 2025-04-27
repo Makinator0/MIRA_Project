@@ -140,7 +140,7 @@ const KanbanBoard = ({ tickets }) => {
             const sprintPayload = {
                 name: `Sprint ${sprintNumber}`,
                 startDate: new Date().toISOString(),
-                // Дополнительные поля, если нужны (например, endDate)
+                project : user.project
             };
 
             const newSprint = await createSprint(sprintPayload, token);

@@ -1,21 +1,17 @@
 package com.example.MIRA.controllers;
 
+import com.example.MIRA.dto.KanbanTicketDto;
 import com.example.MIRA.models.Ticket;
-import com.example.MIRA.repositories.TicketRepository;
 import com.example.MIRA.services.TicketService;
 import com.example.MIRA.services.UserService;
-import com.example.MIRA.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/tickets")
 public class TicketController {
@@ -23,6 +19,7 @@ public class TicketController {
     private final UserService userService;
     private final TicketService ticketService;
     private final SimpMessagingTemplate messagingTemplate;
+
 
     @Autowired
     public TicketController(UserService userService, TicketService ticketService, SimpMessagingTemplate messagingTemplate) {
@@ -32,10 +29,13 @@ public class TicketController {
     }
 
     @PostMapping
-    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
-        Ticket createdTicket = ticketService.createAndBroadcastTicket(ticket);
+    public ResponseEntity<KanbanTicketDto> createTicket(@RequestBody Ticket ticket) {
+        log.info("Received ticket creation request: {}", ticket);
+        KanbanTicketDto createdTicket = ticketService.createAndBroadcastTicket(ticket);
+        log.info("Created ticket: {}", createdTicket);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTicket);
     }
+
 
 
 
