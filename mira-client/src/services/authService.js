@@ -39,6 +39,9 @@ export const login = async (email, password) => {
         throw new Error('Ошибка: токен не найден');
     }
 
+    // Сохраняем токен сразу после получения
+    setCookie("JWT_TOKEN", token, 1);
+
     return token;
 };
 export const validateToken = async (token) => {

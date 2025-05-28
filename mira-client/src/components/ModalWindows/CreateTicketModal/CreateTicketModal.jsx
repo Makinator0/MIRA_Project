@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import {getToken, getUserFromToken} from "../../../services/authService";
 import "./CreateTicketModal.css"
 import TagInput from "../../InputFields/TagInput/TagInput";
-import AutocompleteDropdown from "../../Dropdowns/AutocompleteDropdown";
 import {createTicket} from "../../../services/ticketService";
 import useWebSocket from "../../../hooks/useWebSocket";
+import UserSelectorField from "../../InputFields/UserSelectorField/UserSelectorField.jsx";
 
 
 const CreateTicketModal = ({
@@ -53,10 +53,11 @@ const CreateTicketModal = ({
             .filter(Boolean);
 
         const reporterUser = allUsers.find(
-            (user) => user.name === formData.reporter
+            (user) => `${user.name || ''} ${user.surname || ''}`.trim() === formData.reporter
         );
+
         const assigneeUser = allUsers.find(
-            (user) => user.name === formData.assignee
+            (user) => `${user.name || ''} ${user.surname || ''}`.trim() === formData.assignee
         );
 
         // Здесь формируем объект тикета
@@ -73,7 +74,7 @@ const CreateTicketModal = ({
         };
 
         try {
-            const token = getToken(); // Получаем токен
+            const token = getToken();// Получаем токен
             const data = await createTicket(ticketPayload, token);
             if (stompClient && stompClient.connected) {
                 stompClient.publish({ destination: "/kanban", body: JSON.stringify(data) });
@@ -90,11 +91,11 @@ const CreateTicketModal = ({
     return (
         <div id="createTicketModal" className="modal">
             <div className="modal-content">
-                <span className="close" onClick={onClose}>&times;</span>
+                <span className="modal-close" onClick={onClose}>&times;</span>
                 <h3>Create New Ticket</h3>
                 <form id="createTicketForm" onSubmit={handleSubmit}>
                     {/* Здесь поля формы, как в предыдущем примере */}
-                    <label htmlFor="project">Project:</label>
+                    <label htmlFor="project" className="label">Project:</label>
                     <select
                         id="project"
                         name="project"
@@ -109,7 +110,7 @@ const CreateTicketModal = ({
                     </select>
                     <br/>
 
-                    <label htmlFor="title">Summary:</label>
+                    <label htmlFor="title" className="label">Summary:</label>
                     <input
                         type="text"
                         id="title"
@@ -121,7 +122,7 @@ const CreateTicketModal = ({
                     />
                     <br/>
 
-                    <label htmlFor="description">Description:</label>
+                    <label htmlFor="description" className="label">Description:</label>
                     <textarea
                         id="description"
                         name="description"
@@ -131,38 +132,28 @@ const CreateTicketModal = ({
                         onChange={handleChange}
                     ></textarea>
                     <br/>
-
-                    <label htmlFor="reporter">Reporter:</label>
-                    <AutocompleteDropdown
-                        name="reporter"
-                        value={formData.reporter}
-                        onChange={handleChange}
-                        users={allUsers}
-                        placeholder="Select reporter"
-                        required={true}
-                    />
-                    <br/>
-                    <button type="button" onClick={() => handleAssignToMe("reporter")}>
-                        Assign to Me
-                    </button>
-                    <br/>
-
-                    <label htmlFor="assignee">Assignee:</label>
-                    <AutocompleteDropdown
-                        name="assignee"
+                    <UserSelectorField
+                        label="Assignee"
+                        fieldName="assignee"
                         value={formData.assignee}
                         onChange={handleChange}
+                        setFormData={setFormData}
                         users={allUsers}
-                        placeholder="Select assignee"
-                        required={true}
+                        required
                     />
                     <br/>
-                    <button type="button" onClick={() => handleAssignToMe("assignee")}>
-                        Assign to Me
-                    </button>
-                    <br/>
+                    <UserSelectorField
+                        label="Reporter"
+                        fieldName="reporter"
+                        value={formData.reporter}
+                        onChange={handleChange}
+                        setFormData={setFormData}
+                        users={allUsers}
+                        required
 
-                    <label htmlFor="type">Type:</label>
+                    />
+                    <br/>
+                    <label htmlFor="type" className="label">Type: </label>
                     <select
                         id="type"
                         name="type"
@@ -177,7 +168,7 @@ const CreateTicketModal = ({
                     </select>
                     <br/>
 
-                    <label htmlFor="status">Status:</label>
+                    <label htmlFor="status" className="label">Status:</label>
                     <select
                         id="status"
                         name="status"
@@ -193,7 +184,7 @@ const CreateTicketModal = ({
                     </select>
                     <br/>
 
-                    <label htmlFor="priority">Priority:</label>
+                    <label htmlFor="priority" className="label">Priority:</label>
                     <select
                         id="priority"
                         name="priority"
@@ -210,7 +201,7 @@ const CreateTicketModal = ({
                     </select>
                     <br/>
 
-                    <label htmlFor="tags">Tags:</label>
+                    <label htmlFor="tags" className="label">Tags:</label>
                     <TagInput
                         value={formData.tags}
                         onChange={handleChange}

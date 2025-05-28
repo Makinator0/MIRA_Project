@@ -79,11 +79,9 @@ public class UserController {
             );
 
             System.out.println("User registered successfully: " + registrationRequest.getEmail());
-
+            System.out.println(token);
             // Add the Authorization token to the response header
-            return ResponseEntity.ok()
-                    .header("Authorization", "Bearer " + token)
-                    .body("Успешный вход");
+            return ResponseEntity.ok().header("Authorization", "Bearer " + token).body("Успешный вход");
         } catch (IllegalArgumentException e) {
             System.err.println("Registration error: " + e.getMessage());
             return ResponseEntity.badRequest().body("Invalid registration data: " + e.getMessage());

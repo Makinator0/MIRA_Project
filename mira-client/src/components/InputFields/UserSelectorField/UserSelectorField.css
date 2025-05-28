@@ -1,0 +1,57 @@
+
+
+.user-selector label {
+    color: white;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.user-selector .dropdown-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    width: 100%;
+    transition: border 0.3s;
+}
+.user-selector .dropdown-input::placeholder {
+    color: white !important; /* Белый цвет для placeholder */
+    opacity: 1;
+}
+.user-selector .dropdown-input:focus {
+    outline: none;
+    border: 1px solid white;
+}
+
+.user-selector .assign-button {
+    margin-top: 0.5rem;
+    padding: 6px 12px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.user-selector .assign-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.03);
+}
+.user-selector .dropdown-input::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+.user-selector .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    margin-top: 4px;
+    animation: fadeIn 0.2s ease-in-out;
+}
+

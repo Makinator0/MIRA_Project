@@ -18,6 +18,7 @@ public class KanbanTicketDto {
     private Enum priority;
     private UserShortInfoDto author;
     private UserShortInfoDto assignee;
+    private String displayId;  // Добавляем поле для красивого ID (CORE-1, DIGITAL-3)
     private Set<String> tags;
     private Enum type;
     private Enum project;
@@ -34,6 +35,7 @@ public class KanbanTicketDto {
         this.assignee = ticket.getAssignee() != null ? new UserShortInfoDto(ticket.getAssignee()) : null;
         this.tags = (Set<String>) ticket.getTags();
         this.type = ticket.getType();
+        this.displayId = ticket.getProject().name() + "-" + ticket.getProjectNumber();
         this.createdAt = ticket.getCreatedAt() != null ? ticket.getCreatedAt().toString() : null;
         this.updatedAt = ticket.getUpdatedAt() != null ? ticket.getUpdatedAt().toString() : null;
         this.project = ticket.getProject();
@@ -41,5 +43,4 @@ public class KanbanTicketDto {
                 .map(KanbanSprintDto::new)
                 .collect(Collectors.toList()) : null;
     }
-
 }

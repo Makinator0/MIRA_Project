@@ -14,6 +14,24 @@ body {
     border-bottom: 1px solid #ddd; /* Тонкая полоска */
     padding-bottom: 10px; /* Отступ от нижней границы */
 }
+.kanban-tasks {
+    transition: all 0.3s ease-in-out;
+    min-height: 100px;
+}
+
+.kanban-ticket {
+    background: white;
+    margin-bottom: 8px;
+    padding: 12px;
+    border-radius: 6px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.kanban-ticket.dragging {
+    opacity: 0.5;
+    transform: rotate(3deg);
+}
+
 .current-sprint{
     display: flex;
     margin: 10px 20px;
@@ -58,7 +76,11 @@ body {
     flex-direction: column;
     flex-grow: 1; /* Колонки растягиваются на доступную ширину */
 }
-
+/* Коли тикет перетягується */
+.kanban-ticket.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+}
 /* Заголовок колонок */
 .kanban-column .kanban-header {
     padding: 10px;

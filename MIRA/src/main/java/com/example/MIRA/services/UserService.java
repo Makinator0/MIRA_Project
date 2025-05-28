@@ -27,9 +27,7 @@ public class UserService implements UserDetailsService {
 
     public boolean createUser(User user, String role, String project) {
         String userEmail = user.getEmail();
-        System.out.println("HUI");
         if (userRepository.findByEmail(userEmail) != null) return false;
-        System.out.println("IPAL");
         user.setActive(true);
         switch (role) {
             case "ROLE_PROJECT_OWNER":
@@ -44,17 +42,11 @@ public class UserService implements UserDetailsService {
             default:
                 break;
         }
-        System.out.println("NEGR");
         if (project != null) {
             user.setProject(User.Project.valueOf(project));
         }
-        System.out.println("Huesos");
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println("CHMO");
-
         userRepository.save(user);
-        System.out.println("SUDA");
         return true;
     }
 

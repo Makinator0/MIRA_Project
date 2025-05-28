@@ -4,25 +4,41 @@ import com.example.MIRA.models.enums.Project;
 import com.example.MIRA.models.enums.TicketPriority;
 import com.example.MIRA.models.enums.TicketStatus;
 import com.example.MIRA.models.enums.TicketType;
+import org.hibernate.annotations.Parameter;  // Правильный импорт
+import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
+@Getter
+@Setter
 @Entity
-@Table(name = "tickets")
+@Table(name = "tickets",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"id", "project"}))
 public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    private Long id;  // Уникальный ID в БД (1, 2, 3...)
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "project", nullable = false)
+    private Project project;  // CORE или DIGITAL
+
+    @Column(name = "project_number", nullable = false)
+    private Long projectNumber;  // Номер внутри проекта (1, 2, 3...)
+    @Column(name = "display_id")  // Убедись, что имя столбца в базе данных соответствует этому полю
+    private String displayId;
+    // Геттер для красивого отображения (CORE-1, DIGITAL-1)
+    public String getDisplayId() {
+        return project.name() + "-" + projectNumber;
+    }
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -62,9 +78,6 @@ public class Ticket {
     private TicketType type;
 
     // Добавляем поле для проекта
-    @Enumerated(EnumType.STRING)
-    @Column(name = "project", nullable = false)
-    private Project project;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "ticket_sprint", // Имя промежуточной таблицы
@@ -82,9 +95,6 @@ public class Ticket {
 
     public void setSprints(List<Sprint> sprints) {
         this.sprints = sprints;
-    }
-    public Long getId() {
-        return this.id;
     }
 
     public String getTitle() {
@@ -131,9 +141,6 @@ public class Ticket {
         return this.project;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setTitle(String title) {
         this.title = title;
