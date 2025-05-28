@@ -1,5 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { getUserFromToken } from "../../services/authService";
+import "./AutocompleteDropdown.css";
 
 const AutocompleteDropdown = ({
                                   name,
@@ -8,27 +9,44 @@ const AutocompleteDropdown = ({
                                   users = [],
                                   placeholder,
                                   required = false,
+                                  onOpen,
+                                  onClose,
                               }) => {
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const inputRef = useRef(null);
     const currentUser = getUserFromToken();
 
+    useEffect(() => {
+        if (showDropdown) onOpen?.();
+        else onClose?.();
+    }, [showDropdown]);
+
     const updateDropdown = (query) => {
         if (!query) {
-            setFilteredUsers(users);
+            // При пустом запросе - текущий пользователь + 3 других
+            const otherUsers = users.filter(user =>
+                currentUser ? user.userId !== currentUser.userId : true
+            ).slice(0, 4);
+
+            setFilteredUsers(otherUsers);
         } else {
-            const filtered = users.filter((user) =>
-                user.name.toLowerCase().includes(query)
-            );
-            setFilteredUsers(filtered);
+            const lowerQuery = query.toLowerCase();
+            const filtered = users.filter((user) => {
+                const nameMatch = user.name?.toLowerCase().startsWith(lowerQuery);
+                const surnameMatch = user.surname?.toLowerCase().startsWith(lowerQuery);
+                return nameMatch || surnameMatch;
+            });
+
+            // Сортируем - сначала текущий пользователь, затем остальные
+
+            setFilteredUsers(filtered.slice(0, 4));
         }
     };
 
     const handleInputChange = (e) => {
-        onChange(e); // Обновляем значение поля в родительском состоянии
-        const query = e.target.value.toLowerCase();
-        updateDropdown(query);
+        onChange(e);
+        updateDropdown(e.target.value.toLowerCase());
         setShowDropdown(true);
     };
 
@@ -38,19 +56,19 @@ const AutocompleteDropdown = ({
     };
 
     const handleBlur = () => {
-        // Немного задерживаем скрытие, чтобы клик по элементу зарегистрировался
         setTimeout(() => setShowDropdown(false), 150);
     };
 
     const handleOptionClick = (user) => {
+        const fullName = `${user.name || ''} ${user.surname || ''}`.trim();
         onChange({
-            target: { name, value: user.name },
+            target: { name, value: fullName },
         });
         setShowDropdown(false);
     };
 
     return (
-        <div style={{ position: "relative", display: "inline-block", width: "100%" }}>
+        <div className="autocomplete-wrapper">
             <input
                 type="text"
                 name={name}
@@ -61,41 +79,25 @@ const AutocompleteDropdown = ({
                 placeholder={placeholder}
                 required={required}
                 ref={inputRef}
-                style={{
-                    width: "100%",
-                    padding: "8px",
-                    fontSize: "16px",
-                    boxSizing: "border-box",
-                }}
+                className="autocomplete-input"
             />
             {showDropdown && filteredUsers.length > 0 && (
-                <div
-                    style={{
-                        position: "absolute",
-                        top: "100%",
-                        left: 0,
-                        right: 0,
-                        background: "#2c3e50",
-                        border: "1px solid #ccc",
-                        maxHeight: "150px",
-                        overflowY: "auto",
-                        zIndex: 1000,
-                    }}
-                >
-                    {filteredUsers.map((user) => (
-                        <div
-                            key={user.userId}
-                            onClick={() => handleOptionClick(user)}
-                            style={{
-                                padding: "8px",
-                                cursor: "pointer",
-                                borderBottom: "1px solid #eee",
-                            }}
-                        >
-                            {user.name}{" "}
-                            {currentUser && user.userId === currentUser.userId ? "(Assign to me)" : ""}
-                        </div>
-                    ))}
+                <div className="autocomplete-dropdown">
+                    {filteredUsers.map((user) => {
+                        const fullName = `${user.name || ''} ${user.surname || ''}`.trim();
+                        return (
+                            <div
+                                key={user.userId || user.id}
+                                onClick={() => handleOptionClick(user)}
+                                className="autocomplete-option"
+                            >
+                                {fullName || 'No name'}{" "}
+                                {currentUser && user.userId === currentUser.userId
+                                    ? "(Assign to me)"
+                                    : ""}
+                            </div>
+                        );
+                    })}
                 </div>
             )}
         </div>

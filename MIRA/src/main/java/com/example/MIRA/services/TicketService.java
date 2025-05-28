@@ -44,6 +44,8 @@ public class TicketService {
     }
 
     public Ticket createTicket(Ticket ticket) {
+        Long lastProjectNumber = ticketRepository.findMaxProjectNumberByProject(ticket.getProject());
+        ticket.setProjectNumber(lastProjectNumber != null ? lastProjectNumber + 1 : 1);
         ticket.setAuthor(ticket.getAuthor());
         ticket.setAssignee(ticket.getAssignee());
         ticket.setProject(ticket.getProject());
@@ -119,7 +121,9 @@ public class TicketService {
                 .collect(Collectors.toList());
     }
 
-
+    public Optional<Ticket> getTicketById(Long ticketId) {
+        return ticketRepository.findById(ticketId);
+    }
 
     public List<Ticket> createTicketForUser(Ticket ticket, String token) throws Exception {
         String username = jwtTokenProvider.getUsernameFromToken(token);
@@ -155,12 +159,60 @@ public class TicketService {
         Ticket createdTicket = createTicket(ticket);
 
         KanbanTicketDto kanbanTicketDto = new KanbanTicketDto(createdTicket);
-
+        System.out.println(kanbanTicketDto.getDisplayId());
         messagingTemplate.convertAndSend("/topic/kanban", kanbanTicketDto);
 
         return kanbanTicketDto;
     }
+    public KanbanTicketDto updateAndBroadcastTicket(Long ticketId, Ticket ticketUpdates) {
+        // Находим существующий тикет
+        System.out.println("Looking for ticket with ID: {}" + ticketId);
+        Ticket existingTicket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("Ticket not found with id: " + ticketId));
 
+        // Обновляем поля
+        updateTicketFields(existingTicket, ticketUpdates);
 
+        // Сохраняем обновленный тикет
+        Ticket updatedTicket = ticketRepository.save(existingTicket);
 
+        // Конвертируем в DTO
+        KanbanTicketDto dto = new KanbanTicketDto(updatedTicket);
+
+        // Отправляем уведомление через WebSocket
+        messagingTemplate.convertAndSend("/topic/tickets", dto);
+
+        return dto;
+    }
+
+    private void updateTicketFields(Ticket existingTicket, Ticket updates) {
+        if (updates.getTitle() != null) {
+            existingTicket.setTitle(updates.getTitle());
+        }
+        if (updates.getDescription() != null) {
+            existingTicket.setDescription(updates.getDescription());
+        }
+        if (updates.getStatus() != null) {
+            existingTicket.setStatus(updates.getStatus());
+        }
+        if (updates.getPriority() != null) {
+            existingTicket.setPriority(updates.getPriority());
+        }
+        if (updates.getType() != null) {
+            existingTicket.setType(updates.getType());
+        }
+        if (updates.getTags() != null) {
+            existingTicket.setTags(updates.getTags());
+        }
+        if (updates.getAssignee() != null) {
+            User assignee = userService.getUserById(updates.getAssignee().getId());
+            existingTicket.setAssignee(assignee);
+        }
+        if (updates.getAuthor() != null) {
+            User reporter = userService.getUserById(updates.getAuthor().getId());
+            existingTicket.setAuthor(reporter);
+        }
+
+        existingTicket.setUpdatedAt(LocalDateTime.now());
+    }
 }

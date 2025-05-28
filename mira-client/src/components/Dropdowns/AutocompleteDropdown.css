@@ -1,0 +1,74 @@
+.autocomplete-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+input.autocomplete-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.15); /* Полупрозрачный белый фон */
+    color: white !important; /* Белый текст */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Легкая белая граница */
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border 0.3s;
+}
+.autocomplete-input::-webkit-input-placeholder {
+    color: white !important; /* Для Chrome/Edge */
+}
+
+.autocomplete-input::-moz-placeholder {
+    color: white !important; /* Для Firefox */
+}
+
+.autocomplete-input:-ms-input-placeholder {
+    color: white !important; /* Для IE */
+}
+
+.autocomplete-input::placeholder {
+    color: white !important; /* Общий стиль для placeholder */
+}
+.autocomplete-input:focus {
+    outline: none;
+    border-color: white;
+}
+
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #4b5b6a; /* Ваш цвет вместо прозрачного */
+    border: 1px solid #5c6d7e; /* Граница на 10% светлее основного цвета */
+    border-radius: 6px;
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 1000;
+    animation: dropdownFade 0.2s ease-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Лёгкая тень для контраста */
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.autocomplete-option {
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Едва заметные разделители */
+    transition: background-color 0.2s;
+}
+
+.autocomplete-option:hover {
+    background-color: #3d4c5a; /* Цвет на 10% темнее основного */
+}

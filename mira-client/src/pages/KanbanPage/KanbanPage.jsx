@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { validateToken } from "../../services/authService";
+import {getToken, validateToken} from "../../services/authService";
 import Header from "../../components/Headers/KanbanHeader";
 import KanbanBoard from "../../components/Boards/KanbanBoard/KanbanBoard";
 import useWebSocket from "../../hooks/useWebSocket"; // Добавлен импорт Header
@@ -17,7 +17,7 @@ const KanbanPage = () => {
         const validateUserToken = async () => {
             try {
                 // Получаем токен из state (передан при навигации)
-                const token = location.state?.token;
+                const token = location.state?.token || getToken();
 
                 if (!token) {
                     throw new Error("Токен отсутствует");

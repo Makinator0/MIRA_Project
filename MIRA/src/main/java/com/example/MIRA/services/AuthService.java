@@ -27,7 +27,8 @@ public class AuthService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        String jwt = jwtTokenProvider.generateToken(
+
+        return jwtTokenProvider.generateToken(
                 user.getEmail(),
                 user.getId().toString(),
                 user.getName(),
@@ -36,8 +37,6 @@ public class AuthService {
                 user.getRoles(),
                 String.valueOf(user.getProject())
         );
-
-        return jwt;
     }
     public boolean validateToken(String token) {
         try {
